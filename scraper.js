@@ -12,6 +12,7 @@ axios.get(url)
         const $ = cheerio.load(html);
         const chart = $('.chart-list-item')
         const values = Object.values(chart)
+        Song.deleteMany({}, () => console.log('deleted songs'))
         values.forEach(song => {
             if(song['attribs']) {
                 Song.create({
@@ -19,6 +20,7 @@ axios.get(url)
                     artist: song['attribs']['data-artist'],
                     rank: song['attribs']['data-rank']
                 })
+                console.log('song', song['attribs']['data-rank'], 'added')
             }
         })
         console.log('Successful scrape!')
