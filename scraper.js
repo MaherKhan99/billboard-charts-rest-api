@@ -2,9 +2,10 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const mongoose = require('mongoose')
 const Song = require('./models/song')
+require('dotenv').config();
 
 const url = "https://www.billboard.com/charts/hot-100";
-mongoose.connect('mongodb://billboardapi:billboardapi1@ds345587.mlab.com:45587/billboard-chart-rest-api', { useNewUrlParser: true })
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds345587.mlab.com:45587/billboard-chart-rest-api`, { useNewUrlParser: true })
 
 axios.get(url)
     .then(response => {

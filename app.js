@@ -2,8 +2,9 @@ const express = require("express");
 const app = express();
 const mongoose = require('mongoose');
 const Song = require('./models/song');
+require('dotenv').config();
 
-mongoose.connect('mongodb://billboardapi:billboardapi1@ds345587.mlab.com:45587/billboard-chart-rest-api', { useNewUrlParser: true })
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds345587.mlab.com:45587/billboard-chart-rest-api`, { useNewUrlParser: true })
 
 app.get('/', function(req, res) {
     res.send('hello');
