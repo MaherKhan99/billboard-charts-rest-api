@@ -21,7 +21,7 @@ app.get('/songs', function (req, res) {
     })
 })
 
-app.get('/songs/:rank', function(req, res){
+app.get('/songs/ranks/:rank', function(req, res){
     Song.find({rank: req.params.rank}, function(err, song) {
         if(err) {
             console.log(err)
@@ -31,7 +31,7 @@ app.get('/songs/:rank', function(req, res){
     })
 })
 
-app.get('/songs/:startRank/:endRank', function(req, res){
+app.get('/songs/ranks/:startRank/:endRank', function(req, res){
     const firstSong = req.params.startRank
     const lastSong = req.params.endRank
     const songRange = Song.find({rank: {$gte: firstSong, $lte: lastSong}}).sort({rank: 1})
@@ -40,6 +40,21 @@ app.get('/songs/:startRank/:endRank', function(req, res){
             console.log(err)
         } else {
             res.send(songs)
+        }
+    })
+})
+
+app.get('/songs/artists/:artist', function(req, res){
+    parsedArtist = req.params.artist.replace('-', ' ')
+    Song.find({}, function(err, songs){
+        if(err){
+            console.log(err)
+        } else {
+            songs.forEach(song => {
+                if(song['artist'].toLowerCase() === parsedArtist){
+                    res.send(song)
+                }
+            })
         }
     })
 })
