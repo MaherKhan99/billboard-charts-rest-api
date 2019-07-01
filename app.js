@@ -32,6 +32,18 @@ app.get('/songs/titles', function(req, res){
     })
 })
 
+app.get('/songs/artists', function(req, res){
+    const allArtists = Song.find({}, {artist: 1}).sort({rank: 1})
+    Song.find(allArtists, function(err, artists){
+        if(err) {
+            console.log(err)
+        } else {
+            res.json(artists)
+        }
+    })
+})
+
+
 app.get('/songs/ranks/:rank', function(req, res){
     Song.find({rank: req.params.rank}, function(err, song) {
         if(err) {
