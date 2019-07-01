@@ -67,8 +67,26 @@ app.get('/songs/ranks/:startRank/:endRank', function(req, res){
     })
 })
 
+app.get('/songs/titles/:title', function(req, res){
+    parsedTitle = req.params.title.replace(/-/g, ' ')
+    const allSongs = Song.find({}).sort({rank: 1})
+    Song.find(allSongs, function(err, songs){
+        if(err){
+            console.log(err)
+        } else {
+            const titleArray = []
+            songs.forEach(song => {
+                if(song['title'].toLowerCase().includes(parsedTitle)){
+                    titleArray.push(song)
+                }
+            })
+            res.json(titleArray)
+        }
+    })
+})
+
 app.get('/songs/artists/:artist', function(req, res){
-    parsedArtist = req.params.artist.replace('-', ' ')
+    parsedArtist = req.params.artist.replace(/-/g, ' ')
     const allSongs = Song.find({}).sort({rank: 1})
     Song.find(allSongs, function(err, songs){
         if(err){
