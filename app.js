@@ -8,7 +8,6 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds3455
 
 app.get('/', function(req, res) {
     res.send('hello');
-    return;
 })
 
 app.get('/songs', function (req, res) {
@@ -19,7 +18,6 @@ app.get('/songs', function (req, res) {
         } else {
             res.json(songList)
         }
-        return;
     })
 })
 
@@ -31,7 +29,6 @@ app.get('/songs/titles', function(req, res){
         } else {
             res.json(titles)
         }
-        return;
     })
 })
 
@@ -42,7 +39,6 @@ app.get('/songs/ranks/:rank', function(req, res){
         } else {
             res.json(song)
         }
-        return;
     })
 })
 
@@ -56,7 +52,6 @@ app.get('/songs/ranks/:startRank/:endRank', function(req, res){
         } else {
             res.json(songs)
         }
-        return;
     })
 })
 
@@ -67,13 +62,14 @@ app.get('/songs/artists/:artist', function(req, res){
         if(err){
             console.log(err)
         } else {
+            const artistArray = []
             songs.forEach(song => {
-                if(song['artist'].toLowerCase() === parsedArtist){
-                    res.json(song)
+                if(song['artist'].toLowerCase().includes(parsedArtist)){
+                    artistArray.push(song)
                 }
             })
+            res.json(artistArray)
         }
-        return;
     })
 })
 
