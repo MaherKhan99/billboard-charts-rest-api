@@ -21,6 +21,29 @@ app.get('/songs', function (req, res) {
     })
 })
 
+app.get('/songs/:rank', function(req, res){
+    Song.find({rank: req.params.rank}, function(err, song) {
+        if(err) {
+            console.log(err)
+        } else {
+            res.send(song)
+        }
+    })
+})
+
+app.get('/songs/:startRank/:endRank', function(req, res){
+    const firstSong = req.params.startRank
+    const lastSong = req.params.endRank
+    const songRange = Song.find({rank: {$gte: firstSong, $lte: lastSong}}).sort({rank: 1})
+    Song.find(songRange, function(err, songs){
+        if(err) {
+            console.log(err)
+        } else {
+            res.send(songs)
+        }
+    })
+})
+
 app.listen(3000, function() {
     console.log('api server has started');
 });

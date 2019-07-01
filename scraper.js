@@ -21,7 +21,6 @@ axios.get(url)
                     artist: song['attribs']['data-artist'],
                     rank: song['attribs']['data-rank']
                 })
-                console.log('song', song['attribs']['data-rank'], 'added')
             }
         })
         console.log('Successful scrape!')
