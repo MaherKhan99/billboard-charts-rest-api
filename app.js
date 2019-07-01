@@ -8,6 +8,7 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds3455
 
 app.get('/', function(req, res) {
     res.send('hello');
+    return;
 })
 
 app.get('/songs', function (req, res) {
@@ -16,8 +17,21 @@ app.get('/songs', function (req, res) {
         if(err) {
             console.log(err)
         } else {
-            res.send(songList)
+            res.json(songList)
         }
+        return;
+    })
+})
+
+app.get('/songs/titles', function(req, res){
+    const allTitles = Song.find({}, {title: 1}).sort({rank: 1})
+    Song.find(allTitles, function(err, titles){
+        if(err) {
+            console.log(err)
+        } else {
+            res.json(titles)
+        }
+        return;
     })
 })
 
@@ -26,8 +40,9 @@ app.get('/songs/ranks/:rank', function(req, res){
         if(err) {
             console.log(err)
         } else {
-            res.send(song)
+            res.json(song)
         }
+        return;
     })
 })
 
@@ -39,23 +54,26 @@ app.get('/songs/ranks/:startRank/:endRank', function(req, res){
         if(err) {
             console.log(err)
         } else {
-            res.send(songs)
+            res.json(songs)
         }
+        return;
     })
 })
 
 app.get('/songs/artists/:artist', function(req, res){
     parsedArtist = req.params.artist.replace('-', ' ')
-    Song.find({}, function(err, songs){
+    const allSongs = Song.find({}).sort({rank: 1})
+    Song.find(allSongs, function(err, songs){
         if(err){
             console.log(err)
         } else {
             songs.forEach(song => {
                 if(song['artist'].toLowerCase() === parsedArtist){
-                    res.send(song)
+                    res.json(song)
                 }
             })
         }
+        return;
     })
 })
 
