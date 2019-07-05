@@ -71,6 +71,18 @@ app.get('/songs/artists', function(req, res){
     })
 })
 
+app.get('/songs/ranks', function(req, res){
+    const firstSong = req.query.start
+    const lastSong = req.query.end
+    const songRange = Song.find({rank: {$gte: firstSong, $lte: lastSong}}).sort({rank: 1})
+    Song.find(songRange, function(err, songs){
+        if(err) {
+            console.log(err)
+        } else {
+            res.json(songs)
+        }
+    })
+})
 
 app.get('/songs/ranks/:rank', function(req, res){
     Song.find({rank: req.params.rank}, function(err, song) {
@@ -78,19 +90,6 @@ app.get('/songs/ranks/:rank', function(req, res){
             console.log(err)
         } else {
             res.json(song)
-        }
-    })
-})
-
-app.get('/songs/ranks/:startRank/:endRank', function(req, res){
-    const firstSong = req.params.startRank
-    const lastSong = req.params.endRank
-    const songRange = Song.find({rank: {$gte: firstSong, $lte: lastSong}}).sort({rank: 1})
-    Song.find(songRange, function(err, songs){
-        if(err) {
-            console.log(err)
-        } else {
-            res.json(songs)
         }
     })
 })
