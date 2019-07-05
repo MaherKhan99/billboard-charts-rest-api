@@ -35,12 +35,25 @@ app.get('/songs/titles', function(req, res){
 })
 
 app.get('/songs/artists', function(req, res){
-    const allArtists = Song.find({}, {artist: 1}).sort({rank: 1})
+    const artist = req.query.artist
+    const allArtists = artist ? Song.find({}).sort({rank: 1}) :
+        Song.find({}, {artist: 1}).sort({rank: 1})
     Song.find(allArtists, function(err, artists){
         if(err) {
             console.log(err)
         } else {
-            res.json(artists)
+            if(!artist) {
+                res.json(artists)
+            } else {
+                const songArray = []
+                const parsedArtist = artist.replace(/-/g, ' ')
+                artists.forEach(song => {
+                    if (song['artist'].toLowerCase().includes(parsedArtist)) {
+                        songArray.push(song)
+                    }
+                })
+                res.json(songArray)
+            }
         }
     })
 })
@@ -83,24 +96,6 @@ app.get('/songs/titles/:title', function(req, res){
                 }
             })
             res.json(titleArray)
-        }
-    })
-})
-
-app.get('/songs/artists/:artist', function(req, res){
-    parsedArtist = req.params.artist.replace(/-/g, ' ')
-    const allSongs = Song.find({}).sort({rank: 1})
-    Song.find(allSongs, function(err, songs){
-        if(err){
-            console.log(err)
-        } else {
-            const artistArray = []
-            songs.forEach(song => {
-                if(song['artist'].toLowerCase().includes(parsedArtist)){
-                    artistArray.push(song)
-                }
-            })
-            res.json(artistArray)
         }
     })
 })
