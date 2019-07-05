@@ -6,10 +6,6 @@ require('dotenv').config();
 
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds345587.mlab.com:45587/billboard-chart-rest-api`, { useNewUrlParser: true })
 
-app.get('/', function(req, res) {
-    res.send('hello');
-})
-
 app.get('/songs', function (req, res) {
     const amount = req.query.amount
     const allSongs = amount ? Song.find({rank: {$lte: amount}}).sort({rank: 1}) :
@@ -75,6 +71,9 @@ app.get('/songs/ranks', function(req, res){
     const rank = req.query.rank
     const firstSong = req.query.start
     const lastSong = req.query.end
+    if(!rank && !firstSong && !lastSong) {
+        res.send('Route does not exist')
+    }
     const songRange = rank ? Song.find({rank}) : 
         Song.find({rank: {$gte: firstSong, $lte: lastSong}}).sort({rank: 1})
     Song.find(songRange, function(err, songs){
@@ -84,6 +83,10 @@ app.get('/songs/ranks', function(req, res){
             res.json(songs)
         }
     })
+})
+
+app.get('*', function(req, res){
+    res.send('Route does not exist');
 })
 
 app.listen(3000, function() {
