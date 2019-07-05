@@ -11,7 +11,9 @@ app.get('/', function(req, res) {
 })
 
 app.get('/songs', function (req, res) {
-    const allSongs = Song.find({}).sort({rank: 1})
+    const amount = req.query.amount
+    const allSongs = amount ? Song.find({rank: {$lte: amount}}).sort({rank: 1}) :
+        Song.find({}).sort({rank: 1})
     Song.find(allSongs, function(err, songList){
         if(err) {
             console.log(err)
