@@ -72,24 +72,16 @@ app.get('/songs/artists', function(req, res){
 })
 
 app.get('/songs/ranks', function(req, res){
+    const rank = req.query.rank
     const firstSong = req.query.start
     const lastSong = req.query.end
-    const songRange = Song.find({rank: {$gte: firstSong, $lte: lastSong}}).sort({rank: 1})
+    const songRange = rank ? Song.find({rank}) : 
+        Song.find({rank: {$gte: firstSong, $lte: lastSong}}).sort({rank: 1})
     Song.find(songRange, function(err, songs){
         if(err) {
             console.log(err)
         } else {
             res.json(songs)
-        }
-    })
-})
-
-app.get('/songs/ranks/:rank', function(req, res){
-    Song.find({rank: req.params.rank}, function(err, song) {
-        if(err) {
-            console.log(err)
-        } else {
-            res.json(song)
         }
     })
 })
