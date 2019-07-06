@@ -6,12 +6,12 @@ Source: `https://www.billboard.com/charts/hot-100`
 Routes
 ======
 
-| Endpoint         | Query Params        | Return                               |
-|------------------|---------------------|--------------------------------------|
-| `/songs`         | `amount`            | Returns a list of all songs          |
-| `/songs/titles`  |  `title`            | Returns a list of all titles         |
-| `/songs/artists` |  `artist`           | Returns a list of all artists        |
-| `/songs/ranks`   |  `rank, start, end`   | Returns a list of rank related data  | 
+| Endpoint         | Method  | Query Params        | Return                               |
+|------------------|-------- |---------------------|--------------------------------------|
+| `/songs`         | `GET`   | `amount`            | Returns a list of all songs          |
+| `/songs/titles`  | `GET`   |  `title`            | Returns a list of all titles         |
+| `/songs/artists` | `GET`   |  `artist`           | Returns a list of all artists        |
+| `/songs/ranks`   | `GET`   |`rank, start, end`   | Returns a list of rank related data  | 
 
 Query Params
 ============
