@@ -74,6 +74,9 @@ app.get('/songs/ranks', function(req, res){
     if(!rank && !firstSong && !lastSong) {
         res.send('Route does not exist')
     }
+    if((firstSong && !lastSong) || (lastSong && !firstSong)) {
+        res.send('Route does not exist')
+    }
     const songRange = rank ? Song.find({rank}) : 
         Song.find({rank: {$gte: firstSong, $lte: lastSong}}).sort({rank: 1})
     Song.find(songRange, function(err, songs){
