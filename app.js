@@ -2,9 +2,12 @@ const express = require("express");
 const app = express();
 const mongoose = require('mongoose');
 const Song = require('./models/song');
+const job = require('./scraper.js');
 require('dotenv').config();
 
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds345587.mlab.com:45587/billboard-chart-rest-api`, { useNewUrlParser: true })
+
+job.start()
 
 app.get('/songs', function (req, res) {
     const amount = req.query.amount

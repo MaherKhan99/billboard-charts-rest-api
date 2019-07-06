@@ -6,7 +6,6 @@ const Song = require('./models/song')
 require('dotenv').config();
 
 const url = "https://www.billboard.com/charts/hot-100";
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds345587.mlab.com:45587/billboard-chart-rest-api`, { useNewUrlParser: true })
 
 const job = new CronJob('59 23 * * *', function () {
     axios.get(url)
@@ -30,4 +29,4 @@ const job = new CronJob('59 23 * * *', function () {
         .catch(console.error);
 }, null, true, 'America/New_York')
 
-job.start();
+module.exports = job;
