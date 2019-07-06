@@ -13,6 +13,8 @@ Routes
 | `/songs/artists` | `GET`   |  `artist`           | Returns a list of all artists        |
 | `/songs/ranks`   | `GET`   |`rank, start, end`   | Returns a list of rank related data  | 
 
+**Note that the /songs/ranks endpoint must be passed query params in order to hit a valid route**
+
 Query Params
 ============
 To add query params to a request, follow this format: `/endpoint/?param1=param1-name&param2=param2-name`
