@@ -1,5 +1,7 @@
 # billboard-charts-rest-api
-A rest-api for getting data related to popular music
+A rest-api for getting data related to popular music. All data was scraped from billboard's hot 100 chart.
+
+Source: `https://www.billboard.com/charts/hot-100`
 
 Routes
 ======
