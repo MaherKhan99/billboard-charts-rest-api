@@ -92,6 +92,6 @@ app.get('*', function(req, res){
     res.send('Route does not exist');
 })
 
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, function() {
     console.log('api server has started');
 });
